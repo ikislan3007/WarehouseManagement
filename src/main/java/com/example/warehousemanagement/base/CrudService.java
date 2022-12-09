@@ -1,10 +1,6 @@
 package com.example.warehousemanagement.base;
 
-import com.example.warehousemanagement.base.BaseDto;
-import com.example.warehousemanagement.base.BaseEntity;
-import com.example.warehousemanagement.exception.ResourceNotFoundException;
-import com.example.warehousemanagement.base.ResourceEntityTransformer;
-import com.example.warehousemanagement.base.BaseRepository;
+import com.example.warehousemanagement.infrastracture.ResourceNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

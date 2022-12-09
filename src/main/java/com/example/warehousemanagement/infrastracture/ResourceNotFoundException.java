@@ -1,4 +1,4 @@
-package com.example.warehousemanagement.exception;
+package com.example.warehousemanagement.infrastracture;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
