@@ -17,7 +17,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 public class UserEntity extends BaseEntity {
 
-    String userName;
+    String username;
 
     String password;
 
