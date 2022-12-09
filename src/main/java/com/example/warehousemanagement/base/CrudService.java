@@ -28,16 +28,13 @@ public interface CrudService<D extends BaseDto, E extends BaseEntity> {
         return resourceTransformer().transformToResource(entity);
     }
 
-    default List<D> editAll(List<D> dtoList) {
-        Set<Long> ids = repository().findExistingIds(dtoList.stream().map(dto -> dto.getId()).collect(Collectors.toList()));
-        return saveAll(dtoList.stream().filter(dto -> ids.contains(dto.getId())).collect(Collectors.toList()));
-    }
 
-    default List<D> saveAll(List<D> dtoList) {
-        return repository().saveAll(dtoList.stream().map(dto -> resourceTransformer().transformToEntity(dto)).collect(Collectors.toList())).stream()
-            .map(e -> resourceTransformer().transformToResource(e)).collect(Collectors.toList());
+    default D update(Long id, D dto) {
+        E entityDb = repository().findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        E entityForUpdate = resourceTransformer().transformToEntity(dto);
+        entityForUpdate.setId(entityDb.getId());
+        return resourceTransformer().transformToResource(repository().save(entityForUpdate));
     }
-
 
     default E findByIdEntity(Long id) {
         return repository().findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
