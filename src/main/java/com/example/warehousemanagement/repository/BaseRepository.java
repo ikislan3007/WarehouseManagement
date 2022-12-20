@@ -1,4 +1,4 @@
-package com.example.warehousemanagement.base;
+package com.example.warehousemanagement.repository;
 
 import java.util.List;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package com.example.warehousemanagement.infrastracture;
+package com.example.warehousemanagement.validation;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

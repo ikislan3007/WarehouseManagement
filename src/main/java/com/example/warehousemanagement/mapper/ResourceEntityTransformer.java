@@ -1,4 +1,4 @@
-package com.example.warehousemanagement.base;
+package com.example.warehousemanagement.mapper;
 
 public interface ResourceEntityTransformer<R, E> {
 

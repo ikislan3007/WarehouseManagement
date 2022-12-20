@@ -1,13 +1,12 @@
-package com.example.warehousemanagement.dto;
+package com.example.warehousemanagement.security;
 
 import com.example.warehousemanagement.validation.ValidPassword;
-
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -16,8 +15,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserDto extends BaseDto {
-
+@Builder
+public class AuthenticationRequest {
 
     @Size(min = 5, max = 15)
     @Pattern(regexp = "^[a-zA-Z0-9_]*$")
@@ -27,11 +26,4 @@ public class UserDto extends BaseDto {
     @ValidPassword
     @NotBlank
     String password;
-
-    @NotBlank(message = "Email can not be blank")
-    @Email
-    String email;
-
-    @Pattern(regexp = "^[2-9]\\d{2}-\\d{3}-\\d{3}$")
-    String phone;
 }

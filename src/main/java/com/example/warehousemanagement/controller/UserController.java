@@ -2,7 +2,7 @@ package com.example.warehousemanagement.controller;
 
 import com.example.warehousemanagement.dto.UserDto;
 import com.example.warehousemanagement.service.UserService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

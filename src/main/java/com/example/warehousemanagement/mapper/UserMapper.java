@@ -1,6 +1,5 @@
 package com.example.warehousemanagement.mapper;
 
-import com.example.warehousemanagement.base.ResourceEntityTransformer;
 import com.example.warehousemanagement.dto.UserDto;
 import com.example.warehousemanagement.entity.UserEntity;
 import org.mapstruct.Builder;
