@@ -1,4 +1,4 @@
-package com.example.warehousemanagement.security;
+package com.example.warehousemanagement.security.dto;
 
 import lombok.AccessLevel;
 import lombok.Builder;

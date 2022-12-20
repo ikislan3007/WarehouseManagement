@@ -18,12 +18,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableGlobalMethodSecurity(
-    prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 public class SecurityConfig {
 
-    public static final String[] PUBLIC_URLS = {"/api/v1/auth/**"};
+    public static final String[] PUBLIC_URLS = {"/api/v1/login**"};
 
     @Autowired
     CustomUserDetailsService customUserDetailsService;
@@ -41,20 +40,16 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
     public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
-
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
         authProvider.setUserDetailsService(customUserDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
-
         return authProvider;
     }
 
@@ -81,11 +76,7 @@ public class SecurityConfig {
 
         http.authenticationProvider(authenticationProvider());
         DefaultSecurityFilterChain defaultSecurityFilterChain = http.build();
-
         return defaultSecurityFilterChain;
 
-
     }
-
-
 }

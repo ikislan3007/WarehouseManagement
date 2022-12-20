@@ -1,4 +1,4 @@
-package com.example.warehousemanagement.security;
+package com.example.warehousemanagement.security.dto;
 
 import com.example.warehousemanagement.validation.ValidPassword;
 import javax.validation.constraints.NotBlank;

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
-@SpringBootApplication(exclude = {SecurityFilterAutoConfiguration.class})
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class WarehouseManagementApplication {
 
     public static void main(String[] args) {
