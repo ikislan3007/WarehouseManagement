@@ -1,7 +1,7 @@
 package com.example.warehousemanagement.entity;
 
-import com.example.warehousemanagement.base.BaseEntity;
-import jakarta.persistence.Entity;
+
+import javax.persistence.Entity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

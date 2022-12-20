@@ -1,10 +1,11 @@
-package com.example.warehousemanagement.base;
+package com.example.warehousemanagement.service;
 
-import com.example.warehousemanagement.infrastracture.ResourceNotFoundException;
-import java.util.List;
+import com.example.warehousemanagement.mapper.ResourceEntityTransformer;
+import com.example.warehousemanagement.dto.BaseDto;
+import com.example.warehousemanagement.entity.BaseEntity;
+import com.example.warehousemanagement.repository.BaseRepository;
+import com.example.warehousemanagement.validation.ResourceNotFoundException;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,7 +1,7 @@
 package com.example.warehousemanagement.service.impl;
 
-import com.example.warehousemanagement.base.BaseRepository;
-import com.example.warehousemanagement.base.ResourceEntityTransformer;
+import com.example.warehousemanagement.repository.BaseRepository;
+import com.example.warehousemanagement.mapper.ResourceEntityTransformer;
 import com.example.warehousemanagement.dto.UserDto;
 import com.example.warehousemanagement.entity.UserEntity;
 import com.example.warehousemanagement.mapper.UserMapper;
