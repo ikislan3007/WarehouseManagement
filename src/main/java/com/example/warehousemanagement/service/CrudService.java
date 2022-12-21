@@ -4,7 +4,7 @@ import com.example.warehousemanagement.mapper.ResourceEntityTransformer;
 import com.example.warehousemanagement.dto.BaseDto;
 import com.example.warehousemanagement.entity.BaseEntity;
 import com.example.warehousemanagement.repository.BaseRepository;
-import com.example.warehousemanagement.validation.ResourceNotFoundException;
+import com.example.warehousemanagement.exceptionsHandler.exceptions.ResourceNotFoundException;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package com.example.warehousemanagement.validation;
+package com.example.warehousemanagement.exceptionsHandler.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
