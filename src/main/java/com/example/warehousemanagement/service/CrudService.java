@@ -8,7 +8,9 @@ import com.example.warehousemanagement.exceptionsHandler.exceptions.ResourceNotF
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 
+@Validated
 public interface CrudService<D extends BaseDto, E extends BaseEntity> {
 
     BaseRepository<E, Long> repository();

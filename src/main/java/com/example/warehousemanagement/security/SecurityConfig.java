@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    public static final String[] PUBLIC_URLS = {"/api/v1/login**"};
+    public static final String[] PUBLIC_URLS = {"/api/v1/login**", "api/v1/warehouse**"};
 
     @Autowired
     CustomUserDetailsService customUserDetailsService;
