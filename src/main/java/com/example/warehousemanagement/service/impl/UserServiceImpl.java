@@ -10,6 +10,8 @@ import com.example.warehousemanagement.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +22,9 @@ public class UserServiceImpl implements UserService {
     final UserRepository repository;
     final UserMapper mapper;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public BaseRepository<UserEntity, Long> repository() {
         return repository;
@@ -28,5 +33,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResourceEntityTransformer<UserDto, UserEntity> resourceTransformer() {
         return mapper;
+    }
+
+    @Override
+    public UserDto save(UserDto dto) {
+    String password = bCryptPasswordEncoder.encode(dto.getPassword());
+    dto.setPassword(password);
+        return UserService.super.save(dto);
     }
 }
