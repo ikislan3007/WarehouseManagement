@@ -10,6 +10,8 @@ import com.example.warehousemanagement.service.ProductService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,5 +30,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ResourceEntityTransformer<ProductDto, ProductEntity> resourceTransformer() {
         return mapper;
+    }
+
+    @Override
+    public Page<ProductDto> getByCode(Pageable pageable, String code) {
+        Page<ProductEntity> products = repository.getByCode(pageable, code);
+
+        return products.map(mapper::transformToResource);
     }
 }

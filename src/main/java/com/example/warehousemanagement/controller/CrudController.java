@@ -6,6 +6,8 @@ import com.example.warehousemanagement.dto.BaseDto;
 import com.example.warehousemanagement.entity.BaseEntity;
 import com.example.warehousemanagement.service.CrudService;
 import javax.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +29,11 @@ public interface CrudController<D extends BaseDto, E extends BaseEntity> {
     @GetMapping(path = "{id}", produces = {"application/json"})
     default ResponseEntity<D> findById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(crudService().findById(id));
+    }
+
+    @GetMapping("/all")
+    default ResponseEntity<Page<D>> findAll(Pageable pageable) {
+        return ResponseEntity.ok(crudService().findAll(pageable));
     }
 
     @PutMapping(path = "{id}", produces = {"application/json"})
