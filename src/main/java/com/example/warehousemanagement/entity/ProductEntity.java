@@ -1,5 +1,7 @@
 package com.example.warehousemanagement.entity;
 
+import javax.persistence.Convert;
+import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -9,8 +11,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +18,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+
 public class ProductEntity extends BaseEntity {
 
     String productName;
@@ -26,13 +27,26 @@ public class ProductEntity extends BaseEntity {
     double purchasePrice;
     double sellingPrice;
     int quantity;
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @Enumerated(EnumType.STRING)
+
+    @Convert(converter = CategoryConverter.class)
     Category category;
     String code;
 
     public enum Category {
-        FOOD, OFFICE, BUILDING
-    }
+        FOOD("FOOD"),
+        OFFICE("OFFICE"),
+        BUILDING("BUILDING");
 
+        private String code;
+
+        private Category(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return code;
+        }
+    }
 }
+
+
