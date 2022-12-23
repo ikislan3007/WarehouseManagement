@@ -27,25 +27,14 @@ public class ProductEntity extends BaseEntity {
     double purchasePrice;
     double sellingPrice;
     int quantity;
-
-    @Convert(converter = CategoryConverter.class)
+    @Enumerated(EnumType.STRING)
     Category category;
     String code;
 
     public enum Category {
-        FOOD("FOOD"),
-        OFFICE("OFFICE"),
-        BUILDING("BUILDING");
-
-        private String code;
-
-        private Category(String code) {
-            this.code = code;
-        }
-
-        public String getCode() {
-            return code;
-        }
+        FOOD,
+        OFFICE,
+        BUILDING
     }
 }
 
