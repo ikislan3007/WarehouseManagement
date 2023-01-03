@@ -1,5 +1,6 @@
 package com.example.warehousemanagement.exceptionsHandler;
 
+import com.example.warehousemanagement.exceptionsHandler.exceptions.ContentTypeNotSupportedException;
 import com.example.warehousemanagement.exceptionsHandler.exceptions.IncorrectPasswordException;
 import com.example.warehousemanagement.exceptionsHandler.exceptions.ResourceNotFoundException;
 import com.example.warehousemanagement.exceptionsHandler.exceptions.UserNotFoundException;
@@ -44,7 +45,7 @@ public class ControllerAdviceErrorHandler {
         return new Violation("id", exception.getMessage());
     }
 
-    @ExceptionHandler({IncorrectPasswordException.class})
+    @ExceptionHandler({IncorrectPasswordException.class, ContentTypeNotSupportedException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public PasswordViolation handleIncorrectPasswordExceptionException(RuntimeException exception) {

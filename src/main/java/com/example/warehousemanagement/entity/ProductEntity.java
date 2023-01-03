@@ -1,10 +1,9 @@
 package com.example.warehousemanagement.entity;
 
-import javax.persistence.Convert;
-import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,12 +17,15 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@Table(name = "product_entity")
 
 public class ProductEntity extends BaseEntity {
 
     String productName;
     String description;
+
     String uploadFile;
+
     double purchasePrice;
     double sellingPrice;
     int quantity;
