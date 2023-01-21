@@ -1,13 +1,13 @@
 package com.example.warehousemanagement.service;
 
-import com.example.warehousemanagement.mapper.ResourceEntityTransformer;
 import com.example.warehousemanagement.dto.BaseDto;
 import com.example.warehousemanagement.entity.BaseEntity;
-import com.example.warehousemanagement.repository.BaseRepository;
 import com.example.warehousemanagement.exceptionsHandler.exceptions.ResourceNotFoundException;
+import com.example.warehousemanagement.mapper.ResourceEntityTransformer;
+import com.example.warehousemanagement.repository.BaseRepository;
+import java.util.List;
 import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.stream.Collectors;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
@@ -21,9 +21,13 @@ public interface CrudService<D extends BaseDto, E extends BaseEntity> {
         return resourceTransformer().transformToResource(repository().save(resourceTransformer().transformToEntity(dto)));
     }
 
-    default Page<D> findAll(Pageable pageable) {
+    default List<D> findAll() {
         final ResourceEntityTransformer<D, E> transformer = resourceTransformer();
-        return repository().findAll(pageable).map(transformer::transformToResource);
+
+        List<E> result = repository().findAll();
+
+        return result.stream().map(view -> resourceTransformer().transformToResource(view)).collect(Collectors.toList());
+
     }
 
     default D findById(Long id) {
@@ -51,6 +55,5 @@ public interface CrudService<D extends BaseDto, E extends BaseEntity> {
         return resourceTransformer().transformToResource(optional.orElseThrow(
             () -> new ResourceNotFoundException(id)));
     }
-
 
 }

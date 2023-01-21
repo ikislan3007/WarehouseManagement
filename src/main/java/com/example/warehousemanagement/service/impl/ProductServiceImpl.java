@@ -4,6 +4,8 @@ import com.example.warehousemanagement.dto.ProductDto;
 import com.example.warehousemanagement.entity.ImageEntity;
 import com.example.warehousemanagement.entity.ProductEntity;
 import com.example.warehousemanagement.entity.ProductEntity.Category;
+import com.example.warehousemanagement.exceptionsHandler.exceptions.ContentTypeNotSupportedException;
+import com.example.warehousemanagement.exceptionsHandler.exceptions.ResourceNotFoundException;
 import com.example.warehousemanagement.mapper.ProductMapper;
 import com.example.warehousemanagement.mapper.ResourceEntityTransformer;
 import com.example.warehousemanagement.repository.BaseRepository;
@@ -12,14 +14,15 @@ import com.example.warehousemanagement.repository.ProductRepository;
 import com.example.warehousemanagement.service.ProductService;
 import com.example.warehousemanagement.until.ImageUtility;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -44,26 +47,27 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductDto> getByCode(Pageable pageable, String code) {
-        Page<ProductEntity> products = repository.getByCode(pageable, code);
-        return products.map(mapper::transformToResource);
+    public List<ProductDto> getByCode(String code) {
+
+        List<ProductEntity> products = repository.getByCode(code);
+
+        return products.stream().map(product -> mapper.transformToResource(product)).collect(Collectors.toList());
     }
 
     @Override
-    public Page<ProductDto> getByCategory(Pageable pageable, Category category) {
-        Page<ProductEntity> products = repository.getByCategory(pageable, category);
-        return products.map(mapper::transformToResource);
+    public List<ProductDto> getByCategory(Category category) {
+        List<ProductEntity> products = repository.getByCategory(category);
+        return products.stream().map(product -> mapper.transformToResource(product)).collect(Collectors.toList());
     }
 
     @Override
-    public Page<ProductDto> getByCategoryAndProductName(Pageable pageable, Category category, Optional<String> productName) {
+    public List<ProductDto> getByCategoryAndProductName(Category category, Optional<String> productName) {
 
-        Page<ProductEntity> products = repository.findAllByCategoryAndAndProductName(pageable, category, productName);
 
-        return products.map(mapper::transformToResource);
+        List<ProductEntity> products = repository.findAllByCategoryAndProductNameStartsWith(category, productName);
 
+        return products.stream().map(product -> mapper.transformToResource(product)).collect(Collectors.toList());
     }
-
 
     @Override
     public ProductDto save(ProductDto dto, Optional<MultipartFile> file) throws IOException {
@@ -71,18 +75,51 @@ public class ProductServiceImpl implements ProductService {
         if (!(file.isPresent())) {
             return ProductService.super.save(dto);
         } else {
+            ImageEntity image;
             if (file.get().getContentType().equals("image/jpeg") || file.get().getContentType().equals("image/png") || file.get().getContentType()
                 .equals("image/jpg")) {
-                ImageEntity image = ImageEntity.builder()
+                image = ImageEntity.builder()
                     .name(file.get().getOriginalFilename())
                     .type(file.get().getContentType())
                     .image(ImageUtility.compressImage(file.get().getBytes())).build();
-                imageRepository.save(image);
 
-                dto.setUploadFile(image.getName());
+            } else {
+                throw new ContentTypeNotSupportedException();
             }
+            imageRepository.save(image);
 
+            dto.setUploadFile(image.getName());
             return mapper.transformToResource(repository.save(mapper.transformToEntity(dto)));
         }
+    }
+
+    @Override
+    public ProductDto edit(ProductDto dto, Optional<MultipartFile> file) throws IOException {
+
+        ProductEntity entityDb = repository.findById(dto.getId()).orElseThrow(() -> new ResourceNotFoundException(dto.getId()));
+
+
+        ProductEntity entityForUpdate = mapper.transformToEntity(dto);
+        entityForUpdate.setId(entityDb.getId());
+
+
+        if (!(file.isPresent())) {
+            return ProductService.super.save(dto);
+        } else {
+            ImageEntity image = null;
+            if (file.get().getContentType().equals("image/jpeg") || file.get().getContentType().equals("image/png") || file.get().getContentType()
+                .equals("image/jpg")) {
+                image = ImageEntity.builder()
+                    .name(file.get().getOriginalFilename())
+                    .type(file.get().getContentType())
+                    .image(ImageUtility.compressImage(file.get().getBytes())).build();
+
+            }
+            imageRepository.save(image);
+
+            entityForUpdate.setUploadFile(image.getName());
+            return mapper.transformToResource(repository.save(entityForUpdate));
+        }
+
     }
 }

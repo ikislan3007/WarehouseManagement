@@ -23,9 +23,7 @@ public class ProductEntity extends BaseEntity {
 
     String productName;
     String description;
-
     String uploadFile;
-
     double purchasePrice;
     double sellingPrice;
     int quantity;

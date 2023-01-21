@@ -32,6 +32,6 @@ public class UserDto extends BaseDto {
     @Email
     String email;
 
-    @Pattern(regexp = "^[2-9]\\d{2}-\\d{3}-\\d{3}$")
+    @Pattern(regexp = "^\\d{4}-\\d{3}-\\d{3}$")
     String phone;
 }

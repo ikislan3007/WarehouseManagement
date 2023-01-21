@@ -3,7 +3,6 @@ package com.example.warehousemanagement.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -16,14 +15,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 public class SecurityConfig {
 
-    public static final String[] PUBLIC_URLS = {"/api/v1/login**", "api/v1/warehouse**"};
-
+    public static final String[] PUBLIC_URLS = {"/api/v1/warehouse/login**", "/api/v1/warehouse/registration**", "/api/v1/warehouse/registration/**",
+        "/swagger-ui/index.html/**"};
+    private static final String[] SWAGGER_WHITELIST = {
+        "/v3/api-docs/**",
+        "/swagger-ui/**",
+        "/swagger-ui.html",
+    };
     @Autowired
     CustomUserDetailsService customUserDetailsService;
 
@@ -62,12 +67,22 @@ public class SecurityConfig {
             .authorizeHttpRequests()
             .antMatchers(PUBLIC_URLS)
             .permitAll()
-            .antMatchers(HttpMethod.GET)
+
+            .antMatchers(SWAGGER_WHITELIST)
             .permitAll()
+
             .anyRequest()
             .authenticated()
             .and().exceptionHandling()
             .authenticationEntryPoint(this.jwtAuthenticationEntryPoint)
+            .and()
+            .formLogin()
+            .loginPage("/login.html")
+            .successForwardUrl("/index.html")
+            .and()
+            .logout()
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+            .logoutSuccessUrl("/login?logout")
             .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
